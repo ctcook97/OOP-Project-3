@@ -3,6 +3,7 @@ package application;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import main.course.oop.tictactoe.view.MainView;
+import main.course.oop.tictactoe.view.MainView2;
 import javafx.scene.Scene;
 
 
@@ -14,7 +15,7 @@ public class Main extends Application {
 			Scene scene = mView.getMainScene();
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
-			primaryStage.setTitle("Cameron Cook: 2D Array GUI Example");
+			primaryStage.setTitle("Cameron Cook: Tic Tac Toe");
 
 			primaryStage.setScene(scene);
 			primaryStage.show();
