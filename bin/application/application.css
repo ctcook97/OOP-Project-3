@@ -4,6 +4,10 @@
 	-fx-font: bold 20pt "Arial";
 }
 
+.bottomText{
+	-fx-font: bold 40pt "Arial";
+}
+
 .orangeButton{
 	-fx-color:orange;
 }

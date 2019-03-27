@@ -28,11 +28,16 @@ public class GUI_Driver {
 		if(ticTacToe.setSelection(row, col, (turn%2) + 1)) {
 			turn++;
 		}
-		if (ticTacToe.determineWinner() > 0) {
-			return "Game over";
+		switch(ticTacToe.determineWinner()) {
+			case 0:
+				return ticTacToe.getPlayerName((turn%2) + 1) + "'s move";
+			case 1:
+				return ticTacToe.getPlayerName(turn%2) + " wins";
+			case 2:
+				return ticTacToe.getPlayerName(turn%2) + " wins";
+			default:
+				return "tie game";
 		}
-		else
-			return "Move";
 	}
 	
 	public static void computerMove(int player) {

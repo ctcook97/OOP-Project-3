@@ -201,7 +201,11 @@ public class MainView {
 	}
 
 	
-	public GridPane gameView() {        
+	public GridPane gameView() {     
+		
+		Text bottomText = new Text("Stuff");
+		bottomText.getStyleClass().add("bottomText");
+		
         Button[][] squares = new Button[3][3];
         for(int i = 0; i < 3; ++i) {
         	for (int j = 0; j < 3; ++j) {
@@ -222,8 +226,7 @@ public class MainView {
         	   for(int i = 0; i < 3; ++i) {
         		   for(int j = 0; j < 3; ++j) {
         			   if(squares[i][j] == temp) {
-        				   driver.userMove(i, j);
-        				   System.out.println(driver.getSquare(i,j) + "2");
+        				   bottomText.setText(driver.userMove(i, j));
         				   squares[i][j].setText(driver.getSquare(i, j));
         			   }
         		   }
@@ -249,6 +252,8 @@ public class MainView {
         		gridPane.add(squares[i][j], j, i);
         	}
         }
+        
+        root.setBottom(bottomText);
               
         return gridPane;
 	}
