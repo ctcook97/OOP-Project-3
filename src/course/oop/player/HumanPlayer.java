@@ -37,7 +37,7 @@ public class HumanPlayer {
 	}
 	
 	public String toString() {
-		return userName + "; " + wins + "-" + losses + "-" + ties;
+		return userName + "; '" + marker + "' " + wins + "-" + losses + "-" + ties;
 	}
 	
 	public String getUserName() {

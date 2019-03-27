@@ -33,14 +33,16 @@ public class PlayerList {
 		    String line = bufferedReader.readLine();
 		    while(line != null) {		        
 		        String name = line.substring(0,line.indexOf(";"));
-		        line = line.substring(line.indexOf(";") + 2);
+		        line = line.substring(line.indexOf(";") + 3);
+		        String marker = line.substring(0,line.indexOf("'"));
+		        line = line.substring(line.indexOf("'") + 2);
 		        int wins = Integer.parseInt(line.substring(0,line.indexOf("-")));
 		        line = line.substring(line.indexOf("-") + 1);
 		        int losses = Integer.parseInt(line.substring(0,line.indexOf("-")));
 		        line = line.substring(line.indexOf("-") + 1);
 		        int ties = Integer.parseInt(line);
 		        
-		        list.add(new HumanPlayer(name, "", wins, losses, ties));
+		        list.add(new HumanPlayer(name, marker, wins, losses, ties));
 		        
 		        line = bufferedReader.readLine();
 		    }
