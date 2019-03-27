@@ -45,7 +45,7 @@ public class MainView {
 	}
 
 	public GridPane buildSetupPane() {
-	    Text numPlayersLabel = new Text("Number of Players:");  
+	    Text numPlayersLabel = new Text("Number of Players: ");  
 	    Text timeoutLabel = new Text("Timeout in Seconds:");       
         TextField numPlayersField = new TextField();
         TextField timeoutField = new TextField();   
@@ -66,6 +66,9 @@ public class MainView {
         	   try {
         		   String numPlayers = numPlayersField.getText();
                    timeout = Integer.parseInt(timeoutField.getText());
+                   if (timeout <= 0) {
+                	   timeout = 10000;
+                   }
                    buildNameInputPane(numPlayers);
         	   } catch(NumberFormatException nfe) {
        			System.out.println("Please enter integer values!");
@@ -258,7 +261,7 @@ public class MainView {
         	   //update timer
         	   if (System.currentTimeMillis() - lastClick > timeout*1000) {
         		   System.out.println("Turn forfeited as timeout was exceeded");
-        		   bottomText.setText("Time limit was exceeded. " + driver.changeTurn());
+        		   bottomText.setText("Took too long. " + driver.changeTurn());
         		   if(bottomText.getText().contentEquals("Computer's move")) {
         			   System.out.println("wut");
 					   String s = driver.computerMove();
