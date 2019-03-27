@@ -44,16 +44,21 @@ public class TTTControllerImpl implements TTTControllerInterface {
 		int winner = gameBoard.determineWinner();
 		switch(winner) {
 		case 1:
-			//add win and loss
+			players[0].win();
+			players[1].lose();
+			playerList.save();
 			break;
 		case 2:
-			//add win and loss
+			players[0].lose();
+			players[1].win();
+			playerList.save();
 			break;
 		case 3:
-			//add win and loss;
+			players[0].tie();
+			players[1].tie();
+			playerList.save();
 			break;
 		}
-		playerList.save();
 		return winner;
 	}
 

@@ -39,7 +39,6 @@ public class GUI_Driver {
 	
 	public String computerMove() {
 		//Keeps randomly picking squares until it finds an open one
-		System.out.println("yes");
 		int ran = (int) (Math.random()*9);
 		while(! ticTacToe.setSelection(ran/3, ran%3, 2)) {
 			ran = (int) (Math.random()*9);

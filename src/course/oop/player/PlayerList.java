@@ -19,19 +19,19 @@ public class PlayerList {
 	
 	public HumanPlayer checkAndAdd(String name, String marker) {
 		for (HumanPlayer player: list) {
-		    if (player.getUserName() == name) {
+		    if (player.getUserName().contentEquals(name)) {
 		    	return player;
 		    }
 		}
-		return new HumanPlayer(name,marker);
+		HumanPlayer newPlayer = new HumanPlayer(name,marker);
+		list.add(newPlayer);
+		return newPlayer;
 	}
 	
 	public void load() {
 		try(BufferedReader bufferedReader = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/src/course/oop/player/players.txt"))) {  
 		    String line = bufferedReader.readLine();
-		    while(line != null) {
-		        System.out.println(line);
-		        
+		    while(line != null) {		        
 		        String name = line.substring(0,line.indexOf(";"));
 		        line = line.substring(line.indexOf(";") + 2);
 		        int wins = Integer.parseInt(line.substring(0,line.indexOf("-")));
@@ -44,6 +44,7 @@ public class PlayerList {
 		        
 		        line = bufferedReader.readLine();
 		    }
+		    System.out.println(list.size());
 		} catch (FileNotFoundException e) {
 		    e.printStackTrace();
 		} catch (IOException e) {
@@ -52,12 +53,10 @@ public class PlayerList {
 	}
 	
 	public void save() {
-		System.out.println("AYYYY");
 		try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getProperty("user.dir") + "/src/course/oop/player/players.txt"))) { 
 			list.forEach(player -> {
 				try {
-					System.out.println(player.toString());
-					bufferedWriter.write(player.toString());
+					bufferedWriter.write(player.toString()+"\n");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

@@ -60,7 +60,6 @@ public class MainView {
            public void handle(MouseEvent e) { 
                String numPlayers = numPlayersField.getText();
                String timeout = timeoutField.getText();
-               System.out.println(numPlayers + timeout);
                buildNameInputPane(numPlayers);
            } 
         };  
