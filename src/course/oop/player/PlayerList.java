@@ -8,9 +8,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class PlayerList {
 	
 	private ArrayList<HumanPlayer> list;
+	static ObservableList<String> observableList = FXCollections.observableArrayList();
 	
 	public PlayerList() {
 		list = new ArrayList<HumanPlayer>();
@@ -31,7 +35,8 @@ public class PlayerList {
 	public void load() {
 		try(BufferedReader bufferedReader = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/src/course/oop/player/players.txt"))) {  
 		    String line = bufferedReader.readLine();
-		    while(line != null) {		        
+		    while(line != null) {	
+		    	observableList.add(line);
 		        String name = line.substring(0,line.indexOf(";"));
 		        line = line.substring(line.indexOf(";") + 3);
 		        String marker = line.substring(0,line.indexOf("'"));
@@ -66,5 +71,9 @@ public class PlayerList {
 		} catch (IOException e) {
 		    e.printStackTrace();
 		}
+	}
+	
+	public static ObservableList<String> getObservableList(){
+		return observableList;
 	}
 }

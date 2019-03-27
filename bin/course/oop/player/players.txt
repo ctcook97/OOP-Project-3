@@ -1,2 +1,2 @@
-Cameron; 'CAM' 2-0-0
-Computer; 'COM' 0-2-0
+Cameron; 'CAM' 5-0-0
+Computer; 'COM' 0-5-0

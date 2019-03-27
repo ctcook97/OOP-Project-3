@@ -1,11 +1,15 @@
 package course.oop.tictactoe.view;
 
 import course.oop.main.GUI_Driver;
+import course.oop.player.PlayerList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -127,6 +131,14 @@ public class MainView {
         };  
         button1.addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler);   
         
+        Text listLabel = new Text("Previous players. To use, type their name and marker");
+        ListView<String> list = new ListView<String>();
+        ObservableList<String> items = PlayerList.getObservableList();
+        list.setItems(items);
+        root.setCenter(listLabel);
+        root.setBottom(list);
+        
+        
         GridPane gridPane = new GridPane();   
         gridPane.setMinSize(windowWidth, (int) windowHeight/4); 
         gridPane.setPadding(new Insets(10, 10, 10, 10));
@@ -180,7 +192,14 @@ public class MainView {
                }
            } 
         };  
-        button1.addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler);   
+        button1.addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler); 
+        
+        Text listLabel = new Text("Previous players. To use, type their name and marker");
+        ListView<String> list = new ListView<String>();
+        ObservableList<String> items = PlayerList.getObservableList();
+        list.setItems(items);
+        root.setCenter(listLabel);
+        root.setBottom(list);
         
         GridPane gridPane = new GridPane();  
         gridPane.setMinSize(windowWidth, (int) windowHeight/4); 
@@ -207,7 +226,7 @@ public class MainView {
 
 	
 	public GridPane gameView(boolean onePlayer) {     
-		
+		root.setCenter(null);
 		Text bottomText = new Text(driver.turnMessage());
 		bottomText.getStyleClass().add("bottomText");
 		
