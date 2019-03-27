@@ -208,7 +208,7 @@ public class MainView {
 	
 	public GridPane gameView(boolean onePlayer) {     
 		
-		Text bottomText = new Text("Stuff");
+		Text bottomText = new Text(driver.turnMessage());
 		bottomText.getStyleClass().add("bottomText");
 		
         Button[][] squares = new Button[3][3];

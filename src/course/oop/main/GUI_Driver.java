@@ -61,5 +61,9 @@ public class GUI_Driver {
 	public String getSquare(int row, int col) {
 		return ticTacToe.getSquare(row, col);
 	}
+	
+	public String turnMessage() {
+		return ticTacToe.getPlayerName(1) + "'s turn";
+	}
 
 }
