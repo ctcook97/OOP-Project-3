@@ -1,5 +1,7 @@
 package course.oop.tictactoe.view;
 
+import java.io.File;
+
 import course.oop.main.GUI_Driver;
 import course.oop.player.PlayerList;
 import javafx.collections.FXCollections;
@@ -15,6 +17,8 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -262,6 +266,12 @@ public class MainView {
         			   }
         		   }
                }
+        	   if (driver.isGameOver()){
+        		   String musicFile = "app-5.mp3";
+        		   Media sound = new Media(new File(musicFile).toURI().toString());
+        		   MediaPlayer mediaPlayer = new MediaPlayer(sound);
+        		   mediaPlayer.play();
+        	   }
            } 
         };  
         for(int i = 0; i < 3; ++i) {
