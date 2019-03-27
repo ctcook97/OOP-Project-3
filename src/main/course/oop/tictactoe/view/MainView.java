@@ -25,23 +25,14 @@ public class MainView {
     
     GUI_Driver driver;
     
-//    int row = -1;
-//    public int[] sendMessage(int row, int col) {
-//    	int[] message = {row, col};
-//    	return message;
-//    }
-	
 	public MainView() {
-		
 		driver = new GUI_Driver();
-		driver.create2Players("Cameron", "CAM", "Randy", "RAN");
-		driver.start(2,0);
 		
+
 		this.root = new BorderPane();
 		this.scene = new Scene(root, windowWidth, windowHeight);		
 		this.statusNode = new Text("no status");
 		this.root.setTop(this.buildSetupPane());
-		
 	}
 	
 	public Scene getMainScene() {
@@ -70,7 +61,8 @@ public class MainView {
                String numPlayers = numPlayersField.getText();
                String timeout = timeoutField.getText();
                System.out.println(numPlayers + timeout);
-               root.setTop(gameView());   
+//               root.setTop(gameView());   
+               buildNameInputPane(numPlayers);
            } 
         };  
 
@@ -96,8 +88,12 @@ public class MainView {
 		String text = "";
 		try {
 			int numPlayers =Integer.parseInt(numPlayersString);
-	        System.out.println("Hello World " + numPlayers);
-			root.setTop(enter2PlayerNames());
+	        if(numPlayers == 1) {
+	        	root.setTop(enter1PlayerName());
+	        }
+	        if(numPlayers == 2) {
+	        	root.setTop(enter2PlayerNames());
+	        }
 		}catch(NumberFormatException nfe) {
 			text = "Please enter integer values!";
 		}
@@ -105,7 +101,7 @@ public class MainView {
 	
 	public GridPane enter1PlayerName() {
 	    Text p1nameLabel = new Text("Player 1 name:");  
-	    Text p1markerLabel = new Text("Player 1 marker");       
+	    Text p1markerLabel = new Text("Player 1 marker:");       
         TextField p1nameField = new TextField();
         TextField p1markerField = new TextField();   
         
@@ -121,10 +117,12 @@ public class MainView {
         EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() { 
            @Override 
            public void handle(MouseEvent e) { 
-               String size = p1nameField.getText();
-               String defaultVal = p1markerField.getText();
+               String name = p1nameField.getText();
+               String mark = p1markerField.getText();
 
-               System.out.println(size + defaultVal);
+               driver.createPlayer(name,mark,1);
+               driver.start(1,0); //Change to timeout and start should go in gameView()
+               root.setTop(gameView(true));
            } 
         };  
         button1.addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler);   
@@ -201,7 +199,7 @@ public class MainView {
 	}
 
 	
-	public GridPane gameView() {     
+	public GridPane gameView(boolean onePlayer) {     
 		
 		Text bottomText = new Text("Stuff");
 		bottomText.getStyleClass().add("bottomText");
@@ -217,7 +215,8 @@ public class MainView {
         		squares[i][j].getStyleClass().add("orangeButton");
         	}
         }
-
+        
+        Button quitButton = new Button("Quit");
         
         EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() { 
            @Override 
@@ -228,10 +227,15 @@ public class MainView {
         			   if(squares[i][j] == temp) {
         				   bottomText.setText(driver.userMove(i, j));
         				   squares[i][j].setText(driver.getSquare(i, j));
+        				   if(onePlayer && ! driver.isGameOver()) {
+        					   String s = driver.computerMove();
+        					   int loc = Integer.parseInt(s.substring(0,1));
+        					   squares[loc/3][loc%3].setText("COM");
+        					   bottomText.setText(s.substring(1));
+        				   }
         			   }
         		   }
                }
-               System.out.println("ayo");
            } 
         };  
         for(int i = 0; i < 3; ++i) {
@@ -239,6 +243,14 @@ public class MainView {
         		squares[i][j].addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler); 
         	}
         }
+        
+        EventHandler<MouseEvent> quitHandler = new EventHandler<MouseEvent>() { 
+            @Override 
+            public void handle(MouseEvent e) { 
+            	System.exit(0);
+            } 
+         };  
+         quitButton.addEventFilter(MouseEvent.MOUSE_CLICKED, quitHandler);
 
         GridPane gridPane = new GridPane();    
         gridPane.setMinSize(windowWidth, (int) windowHeight/4); 
@@ -254,6 +266,7 @@ public class MainView {
         }
         
         root.setBottom(bottomText);
+        root.setRight(quitButton);
               
         return gridPane;
 	}
