@@ -1,9 +1,9 @@
 package application;
 	
+import course.oop.main.GUI_Driver;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import main.course.oop.tictactoe.view.MainView;
-import main.course.oop.tictactoe.view.MainView2;
 import javafx.scene.Scene;
 
 
@@ -19,6 +19,7 @@ public class Main extends Application {
 
 			primaryStage.setScene(scene);
 			primaryStage.show();
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

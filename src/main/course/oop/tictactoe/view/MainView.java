@@ -1,5 +1,6 @@
 package main.course.oop.tictactoe.view;
 
+import course.oop.main.GUI_Driver;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -14,21 +15,33 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Rotate;
-import util.TwoDArray;
 
 public class MainView {
 	private BorderPane root;
 	private Scene scene; 
-    private TwoDArray twoDArr;
 	private Text statusNode;
     private final int windowWidth = 800;
     private final int windowHeight = 600;
+    
+    GUI_Driver driver;
+    
+//    int row = -1;
+//    public int[] sendMessage(int row, int col) {
+//    	int[] message = {row, col};
+//    	return message;
+//    }
 	
 	public MainView() {
+		
+		driver = new GUI_Driver();
+		driver.create2Players("Cameron", "CAM", "Randy", "RAN");
+		driver.start(2,0);
+		
 		this.root = new BorderPane();
 		this.scene = new Scene(root, windowWidth, windowHeight);		
 		this.statusNode = new Text("no status");
 		this.root.setTop(this.buildSetupPane());
+		
 	}
 	
 	public Scene getMainScene() {
@@ -57,28 +70,16 @@ public class MainView {
                String numPlayers = numPlayersField.getText();
                String timeout = timeoutField.getText();
                System.out.println(numPlayers + timeout);
-//               buildNameInputPane(numPlayers);
-               root.setTop(gameView());
-               
+               root.setTop(gameView());   
            } 
         };  
-        //Registering the event filter 
-        button1.addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler);   
 
-        //Creating a Grid Pane 
-        GridPane gridPane = new GridPane();    
-        
-        //Setting size for the pane 
+        button1.addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler);  
+        GridPane gridPane = new GridPane(); 
         gridPane.setMinSize(windowWidth, (int) windowHeight/4); 
-        
-        //Setting the padding  
         gridPane.setPadding(new Insets(10, 10, 10, 10)); 
-        
-        //Setting the vertical and horizontal gaps between the columns 
         gridPane.setVgap(5); 
         gridPane.setHgap(5);       
-        
-        //Setting the Grid alignment 
         gridPane.setAlignment(Pos.CENTER); 
         
         gridPane.add(numPlayersLabel, 0, 0); 
@@ -90,7 +91,7 @@ public class MainView {
               
         return gridPane;
 	}
-	
+
 	public void buildNameInputPane(String numPlayersString) {
 		String text = "";
 		try {
@@ -117,7 +118,6 @@ public class MainView {
         line.setEndX((float) windowWidth); 
         line.setEndY(0.0f);
         
-        //Creating the mouse event handler 
         EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() { 
            @Override 
            public void handle(MouseEvent e) { 
@@ -127,23 +127,13 @@ public class MainView {
                System.out.println(size + defaultVal);
            } 
         };  
-        //Registering the event filter 
         button1.addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler);   
-
-        //Creating a Grid Pane 
-        GridPane gridPane = new GridPane();    
         
-        //Setting size for the pane 
+        GridPane gridPane = new GridPane();   
         gridPane.setMinSize(windowWidth, (int) windowHeight/4); 
-        
-        //Setting the padding  
-        gridPane.setPadding(new Insets(10, 10, 10, 10)); 
-        
-        //Setting the vertical and horizontal gaps between the columns 
+        gridPane.setPadding(new Insets(10, 10, 10, 10));
         gridPane.setVgap(5); 
-        gridPane.setHgap(5);       
-        
-        //Setting the Grid alignment 
+        gridPane.setHgap(5);
         gridPane.setAlignment(Pos.CENTER); 
         
         gridPane.add(p1nameLabel, 0, 0); 
@@ -171,13 +161,11 @@ public class MainView {
         button1.getStyleClass().add("orangeButton");
         Line line = new Line();
         
-        
         line.setStartX(0.0f); 
         line.setStartY(0.0f);         
         line.setEndX((float) windowWidth); 
         line.setEndY(0.0f);
         
-        //Creating the mouse event handler 
         EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() { 
            @Override 
            public void handle(MouseEvent e) { 
@@ -187,23 +175,13 @@ public class MainView {
                System.out.println(size + defaultVal);
            } 
         };  
-        //Registering the event filter 
         button1.addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler);   
-
-        //Creating a Grid Pane 
-        GridPane gridPane = new GridPane();    
         
-        //Setting size for the pane 
+        GridPane gridPane = new GridPane();  
         gridPane.setMinSize(windowWidth, (int) windowHeight/4); 
-        
-        //Setting the padding  
         gridPane.setPadding(new Insets(10, 10, 10, 10)); 
-        
-        //Setting the vertical and horizontal gaps between the columns 
         gridPane.setVgap(5); 
         gridPane.setHgap(5);       
-        
-        //Setting the Grid alignment 
         gridPane.setAlignment(Pos.CENTER); 
         
         gridPane.add(p1nameLabel, 0, 0); 
@@ -223,12 +201,11 @@ public class MainView {
 	}
 
 	
-	public GridPane gameView() {
-        
+	public GridPane gameView() {        
         Button[][] squares = new Button[3][3];
         for(int i = 0; i < 3; ++i) {
         	for (int j = 0; j < 3; ++j) {
-        		squares[i][j] = new Button("X");
+        		squares[i][j] = new Button("");
         		squares[i][j].setMinWidth(150);
         		squares[i][j].setMinHeight(150);
         		squares[i][j].setMaxWidth(150);
@@ -236,13 +213,8 @@ public class MainView {
         		squares[i][j].getStyleClass().add("orangeButton");
         	}
         }
+
         
-//        line.setStartX(0.0f); 
-//        line.setStartY(0.0f);         
-//        line.setEndX((float) windowWidth); 
-//        line.setEndY(0.0f);
-//        
-        //Creating the mouse event handler 
         EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() { 
            @Override 
            public void handle(MouseEvent e) { 
@@ -250,38 +222,27 @@ public class MainView {
         	   for(int i = 0; i < 3; ++i) {
         		   for(int j = 0; j < 3; ++j) {
         			   if(squares[i][j] == temp) {
-        				   System.out.println(i + " " + j);
+        				   driver.userMove(i, j);
+        				   System.out.println(driver.getSquare(i,j) + "2");
+        				   squares[i][j].setText(driver.getSquare(i, j));
         			   }
         		   }
                }
                System.out.println("ayo");
            } 
         };  
-        //Registering the event filter 
         for(int i = 0; i < 3; ++i) {
         	for(int j = 0; j < 3; ++j) {
         		squares[i][j].addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler); 
         	}
         }
 
-        //Creating a Grid Pane 
         GridPane gridPane = new GridPane();    
-        
-        //Setting size for the pane 
         gridPane.setMinSize(windowWidth, (int) windowHeight/4); 
-        
-        //Setting the padding  
         gridPane.setPadding(new Insets(10, 10, 10, 10)); 
-        
-        //Setting the vertical and horizontal gaps between the columns 
         gridPane.setVgap(5); 
         gridPane.setHgap(5);       
-        
-        //Setting the Grid alignment 
         gridPane.setAlignment(Pos.CENTER); 
-        
-//        gridPane.add(button1, 2, 3); 
-//        gridPane.add(line, 0, 4, 3, 1); 
         
         for(int i = 0; i < 3; ++i) {
         	for(int j = 0; j < 3; ++j) {
@@ -291,7 +252,4 @@ public class MainView {
               
         return gridPane;
 	}
-	
-
-
 }
