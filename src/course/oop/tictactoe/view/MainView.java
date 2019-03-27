@@ -4,7 +4,6 @@ import java.io.File;
 
 import course.oop.main.GUI_Driver;
 import course.oop.player.PlayerList;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -13,7 +12,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -21,8 +19,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
-import javafx.scene.transform.Rotate;
 
 public class MainView {
 	private BorderPane root;
@@ -30,12 +26,13 @@ public class MainView {
 	private Text statusNode;
     private final int windowWidth = 800;
     private final int windowHeight = 600;
+    private int timeout;
+    private long lastClick;
     
     GUI_Driver driver;
     
 	public MainView() {
 		driver = new GUI_Driver();
-		
 
 		this.root = new BorderPane();
 		this.scene = new Scene(root, windowWidth, windowHeight);		
@@ -66,9 +63,13 @@ public class MainView {
         EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() { 
            @Override 
            public void handle(MouseEvent e) { 
-               String numPlayers = numPlayersField.getText();
-               String timeout = timeoutField.getText();
-               buildNameInputPane(numPlayers);
+        	   try {
+        		   String numPlayers = numPlayersField.getText();
+                   timeout = Integer.parseInt(timeoutField.getText());
+                   buildNameInputPane(numPlayers);
+        	   } catch(NumberFormatException nfe) {
+       			System.out.println("Please enter integer values!");
+       			}
            } 
         };  
 
@@ -129,6 +130,7 @@ public class MainView {
                if (name.length() > 0 && mark.length() > 0){
             	   driver.createPlayer(name,mark,1);
                    driver.start(1,0); //Change to timeout and start should go in gameView()
+                   lastClick = System.currentTimeMillis();
                    root.setTop(gameView(true));
                }
            } 
@@ -192,6 +194,7 @@ public class MainView {
             	   driver.createPlayer(p1name,p1mark,1);
             	   driver.createPlayer(p2name,p2mark,2);
                    driver.start(2,0); //Change to timeout
+                   lastClick = System.currentTimeMillis();
                    root.setTop(gameView(false));
                }
            } 
@@ -252,26 +255,41 @@ public class MainView {
            @Override 
            public void handle(MouseEvent e) { 
         	   Button temp = (Button) e.getSource();
-        	   for(int i = 0; i < 3; ++i) {
-        		   for(int j = 0; j < 3; ++j) {
-        			   if(squares[i][j] == temp) {
-        				   bottomText.setText(driver.userMove(i, j));
-        				   squares[i][j].setText(driver.getSquare(i, j));
-        				   if(bottomText.getText().contentEquals("Computer's move")) {
-        					   String s = driver.computerMove();
-        					   int loc = Integer.parseInt(s.substring(0,1));
-        					   squares[loc/3][loc%3].setText("COM");
-        					   bottomText.setText(s.substring(1));
-        				   }
-        			   }
-        		   }
-               }
-        	   if (driver.isGameOver()){
-        		   String musicFile = "app-5.mp3";
-        		   Media sound = new Media(new File(musicFile).toURI().toString());
-        		   MediaPlayer mediaPlayer = new MediaPlayer(sound);
-        		   mediaPlayer.play();
+        	   //update timer
+        	   if (System.currentTimeMillis() - lastClick > timeout*1000) {
+        		   System.out.println("Turn forfeited as timeout was exceeded");
+        		   bottomText.setText(driver.changeTurn());
+        		   if(bottomText.getText().contentEquals("Computer's move")) {
+        			   System.out.println("wut");
+					   String s = driver.computerMove();
+					   int loc = Integer.parseInt(s.substring(0,1));
+					   squares[loc/3][loc%3].setText("COM");
+					   bottomText.setText(s.substring(1));
+				   }
         	   }
+        	   else {
+            	   for(int i = 0; i < 3; ++i) {
+            		   for(int j = 0; j < 3; ++j) {
+            			   if(squares[i][j] == temp) {
+            				   bottomText.setText(driver.userMove(i, j));
+            				   squares[i][j].setText(driver.getSquare(i, j));
+            				   if(bottomText.getText().contentEquals("Computer's move")) {
+            					   String s = driver.computerMove();
+            					   int loc = Integer.parseInt(s.substring(0,1));
+            					   squares[loc/3][loc%3].setText("COM");
+            					   bottomText.setText(s.substring(1));
+            				   }
+            			   }
+            		   }
+                   }
+            	   if (driver.isGameOver()){
+            		   String musicFile = "app-5.mp3";
+            		   Media sound = new Media(new File(musicFile).toURI().toString());
+            		   MediaPlayer mediaPlayer = new MediaPlayer(sound);
+            		   mediaPlayer.play();
+            	   }
+        	   }
+        	   lastClick = System.currentTimeMillis();
            } 
         };  
         for(int i = 0; i < 3; ++i) {

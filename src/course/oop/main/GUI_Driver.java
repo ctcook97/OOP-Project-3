@@ -65,5 +65,10 @@ public class GUI_Driver {
 	public String turnMessage() {
 		return ticTacToe.getPlayerName(1) + "'s turn";
 	}
+	
+	public String changeTurn() {
+		turn++;
+		return ticTacToe.getPlayerName((turn%2) + 1) + "'s move";
+	}
 
 }
