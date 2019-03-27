@@ -9,6 +9,7 @@ public class TTTControllerImpl implements TTTControllerInterface {
 	HumanPlayer[] players = new HumanPlayer[2];
 	PlayerList playerList = new PlayerList();
 	ThreeByThreeBoard gameBoard;
+	boolean completed = false;
 
 	@Override
 	public void startNewGame(int numPlayers, int timeoutInSecs) {
@@ -42,22 +43,25 @@ public class TTTControllerImpl implements TTTControllerInterface {
 	@Override
 	public int determineWinner() {
 		int winner = gameBoard.determineWinner();
-		switch(winner) {
-		case 1:
-			players[0].win();
-			players[1].lose();
-			playerList.save();
-			break;
-		case 2:
-			players[0].lose();
-			players[1].win();
-			playerList.save();
-			break;
-		case 3:
-			players[0].tie();
-			players[1].tie();
-			playerList.save();
-			break;
+		if (winner > 0 && ! completed) {
+			switch(winner) {
+			case 1:
+				players[0].win();
+				players[1].lose();
+				playerList.save();
+				break;
+			case 2:
+				players[0].lose();
+				players[1].win();
+				playerList.save();
+				break;
+			case 3:
+				players[0].tie();
+				players[1].tie();
+				playerList.save();
+				break;
+			}
+			completed = true;
 		}
 		return winner;
 	}

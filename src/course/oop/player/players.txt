@@ -1,3 +1,3 @@
-Cameron; 'CAM' 51-0-0
-Computer; 'COM' 0-50-0
+Cameron; 'CAM' 83-0-0
+Computer; 'COM' 0-82-0
 Someone; 'X' 0-1-0

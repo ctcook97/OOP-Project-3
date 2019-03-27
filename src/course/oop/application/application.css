@@ -1,15 +1,25 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
 .root{
 	-fx-background-color: white;
-	-fx-font: bold 20pt "Arial";
+	-fx-font: bold 20pt 'OpenSansEmoji';
+}
+
+@font-face {
+    font-family: OpenSansEmoji;
+    src: url('OpenSansEmoji.ttf');
 }
 
 .bottomText{
-	-fx-font: bold 40pt "Arial";
+	-fx-font: bold 40pt OpenSansEmoji;
 }
 
 .orangeButton{
 	-fx-color:orange;
+}
+
+.text-field {
+    -fx-font-family: OpenSansEmoji;
+    -fx-font-size: 32;
 }
 
 .orangeButton:hover{
