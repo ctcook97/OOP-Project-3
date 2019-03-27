@@ -2,10 +2,12 @@ package course.oop.controller;
 
 import course.oop.board.ThreeByThreeBoard;
 import course.oop.player.HumanPlayer;
+import course.oop.player.PlayerList;
 
 public class TTTControllerImpl implements TTTControllerInterface {
 	
 	HumanPlayer[] players = new HumanPlayer[2];
+	PlayerList playerList = new PlayerList();
 	ThreeByThreeBoard gameBoard;
 
 	@Override
@@ -24,9 +26,9 @@ public class TTTControllerImpl implements TTTControllerInterface {
 		}
 		
 		if(playerNum == 1)
-			players[0] = new HumanPlayer(username, marker);
+			players[0] = playerList.checkAndAdd(username, marker);
 		else
-			players[1] = new HumanPlayer(username, marker);
+			players[1] = playerList.checkAndAdd(username, marker);
 	}
 
 	@Override
@@ -39,7 +41,20 @@ public class TTTControllerImpl implements TTTControllerInterface {
 
 	@Override
 	public int determineWinner() {
-		return gameBoard.determineWinner();
+		int winner = gameBoard.determineWinner();
+		switch(winner) {
+		case 1:
+			//add win and loss
+			break;
+		case 2:
+			//add win and loss
+			break;
+		case 3:
+			//add win and loss;
+			break;
+		}
+		playerList.save();
+		return winner;
 	}
 
 	@Override

@@ -1,9 +1,9 @@
-package application;
+package course.oop.application;
 	
 import course.oop.main.GUI_Driver;
+import course.oop.tictactoe.view.MainView;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import main.course.oop.tictactoe.view.MainView;
 import javafx.scene.Scene;
 
 

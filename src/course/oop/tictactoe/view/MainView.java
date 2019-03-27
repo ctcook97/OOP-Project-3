@@ -1,4 +1,4 @@
-package main.course.oop.tictactoe.view;
+package course.oop.tictactoe.view;
 
 import course.oop.main.GUI_Driver;
 import javafx.event.EventHandler;
@@ -61,7 +61,6 @@ public class MainView {
                String numPlayers = numPlayersField.getText();
                String timeout = timeoutField.getText();
                System.out.println(numPlayers + timeout);
-//               root.setTop(gameView());   
                buildNameInputPane(numPlayers);
            } 
         };  
@@ -120,9 +119,11 @@ public class MainView {
                String name = p1nameField.getText();
                String mark = p1markerField.getText();
 
-               driver.createPlayer(name,mark,1);
-               driver.start(1,0); //Change to timeout and start should go in gameView()
-               root.setTop(gameView(true));
+               if (name.length() > 0 && mark.length() > 0){
+            	   driver.createPlayer(name,mark,1);
+                   driver.start(1,0); //Change to timeout and start should go in gameView()
+                   root.setTop(gameView(true));
+               }
            } 
         };  
         button1.addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler);   
@@ -167,10 +168,17 @@ public class MainView {
         EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() { 
            @Override 
            public void handle(MouseEvent e) { 
-               String size = p1nameField.getText();
-               String defaultVal = p1markerField.getText();
+               String p1name = p1nameField.getText();
+               String p1mark = p1markerField.getText();
+               String p2name = p2nameField.getText();
+               String p2mark = p2markerField.getText();
 
-               System.out.println(size + defaultVal);
+               if(p1name.length() > 0 && p1mark.length() > 0 && p2name.length() > 0 && p2mark.length() > 0) {
+            	   driver.createPlayer(p1name,p1mark,1);
+            	   driver.createPlayer(p2name,p2mark,2);
+                   driver.start(2,0); //Change to timeout
+                   root.setTop(gameView(false));
+               }
            } 
         };  
         button1.addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler);   
@@ -227,7 +235,7 @@ public class MainView {
         			   if(squares[i][j] == temp) {
         				   bottomText.setText(driver.userMove(i, j));
         				   squares[i][j].setText(driver.getSquare(i, j));
-        				   if(onePlayer && ! driver.isGameOver()) {
+        				   if(bottomText.getText().contentEquals("Computer's move")) {
         					   String s = driver.computerMove();
         					   int loc = Integer.parseInt(s.substring(0,1));
         					   squares[loc/3][loc%3].setText("COM");
