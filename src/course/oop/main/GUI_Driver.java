@@ -50,7 +50,7 @@ public class GUI_Driver {
 		case 2:
 			return ran + ("Computer wins");
 		default:
-			return ran + "tie game";
+			return ran + "Tie game";
 		}
 	}
 	

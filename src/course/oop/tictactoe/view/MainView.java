@@ -258,7 +258,7 @@ public class MainView {
         	   //update timer
         	   if (System.currentTimeMillis() - lastClick > timeout*1000) {
         		   System.out.println("Turn forfeited as timeout was exceeded");
-        		   bottomText.setText(driver.changeTurn());
+        		   bottomText.setText("Time limit was exceeded. " + driver.changeTurn());
         		   if(bottomText.getText().contentEquals("Computer's move")) {
         			   System.out.println("wut");
 					   String s = driver.computerMove();
